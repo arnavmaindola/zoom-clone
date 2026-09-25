@@ -14,9 +14,7 @@ export default function LoginPage() {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const validCredentials =
-      (username === "Arnav" && password === "arnav123") ||
-      (username === "Scaler" && password === "scaler123");
+    const validCredentials = username === "Arnav" && password === "arnav123";
 
     if (!validCredentials) {
       setError("Invalid username or password");

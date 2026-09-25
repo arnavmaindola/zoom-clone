@@ -41,6 +41,25 @@ export default function MeetingCard({ meeting, actionLabel }: MeetingCardProps) 
           {meeting.host_name ? ` · ${meeting.host_name}` : ""}
           {" · ID "}
           {formatMeetingCode(meeting.meeting_code)}
+          {meeting.status === "ended" ? (
+            <span
+              style={{
+                background: "#f3f4f6",
+                border: "1px solid #e4e4e8",
+                borderRadius: 999,
+                color: "#5f6368",
+                display: "inline-block",
+                fontSize: 11,
+                fontWeight: 600,
+                lineHeight: "18px",
+                marginLeft: 8,
+                padding: "0 7px",
+                verticalAlign: "middle",
+              }}
+            >
+              Ended
+            </span>
+          ) : null}
         </p>
       </div>
       <div style={{ display: "flex", gap: 8 }}>
