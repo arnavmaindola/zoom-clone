@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Bell, ChevronDown, Menu, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Bell, ChevronDown, LogOut, Menu, Search } from "lucide-react";
 import { USER_NAME } from "@/lib/format";
 
 type NavbarProps = {
@@ -9,8 +10,14 @@ type NavbarProps = {
 };
 
 export default function Navbar({ onMenuClick }: NavbarProps) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  function handleLogout() {
+    sessionStorage.removeItem("loggedInUser");
+    router.replace("/login");
+  }
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -63,6 +70,29 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
             <div style={{ padding: "8px 10px 10px" }}>
               <div style={{ fontWeight: 650 }}>{USER_NAME}</div>
               <div style={{ fontSize: 12, color: "var(--muted)" }}>Signed in locally</div>
+            </div>
+            <div style={{ borderTop: "1px solid var(--border)", marginTop: 4, paddingTop: 4 }}>
+              <button
+                type="button"
+                onClick={handleLogout}
+                style={{
+                  alignItems: "center",
+                  background: "transparent",
+                  border: 0,
+                  borderRadius: 6,
+                  color: "#b42318",
+                  display: "flex",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  gap: 8,
+                  padding: "8px 10px",
+                  textAlign: "left",
+                  width: "100%",
+                }}
+              >
+                <LogOut size={16} />
+                Logout
+              </button>
             </div>
           </div>
         ) : null}

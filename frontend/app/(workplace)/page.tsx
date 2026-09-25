@@ -1,23 +1,58 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { CalendarPlus, LogIn, Video } from "lucide-react";
 import QuickActionCard from "@/components/QuickActionCard";
 import RecentMeetings from "@/components/RecentMeetings";
 import UpcomingMeetings from "@/components/UpcomingMeetings";
 import { createMeeting } from "@/lib/api";
-import { greetingForNow, USER_NAME } from "@/lib/format";
+
+function greetingForCurrentTime() {
+  const hour = new Date().getHours();
+
+  if (hour >= 5 && hour < 12) {
+    return "Good morning";
+  }
+
+  if (hour >= 12 && hour < 17) {
+    return "Good afternoon";
+  }
+
+  return "Good evening";
+}
+
+function subscribeToSession() {
+  return () => {};
+}
+
+function getLoggedInUser() {
+  return sessionStorage.getItem("loggedInUser");
+}
+
+function getServerSessionUser() {
+  return null;
+}
 
 export default function HomePage() {
   const router = useRouter();
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState("");
-  const [greeting, setGreeting] = useState("Hello");
+  const username = useSyncExternalStore(
+    subscribeToSession,
+    getLoggedInUser,
+    getServerSessionUser,
+  );
 
   useEffect(() => {
-    setGreeting(greetingForNow());
-  }, []);
+    if (!username) {
+      router.replace("/login");
+    }
+  }, [router, username]);
+
+  if (!username) {
+    return null;
+  }
 
   async function startInstantMeeting() {
     setError("");
@@ -40,7 +75,7 @@ export default function HomePage() {
   return (
     <>
       <h1 className="greeting">
-        {greeting}, {USER_NAME}
+        {greetingForCurrentTime()}, {username}
       </h1>
       <p className="subcopy">Ready to connect?</p>
 
