@@ -36,6 +36,13 @@ A Zoom-inspired full-stack video conferencing platform developed as an SDE Fulls
 - Vercel — Frontend
 - Render — Backend
 
+## Demo Credentials
+
+- **Username:** `Arnav`
+- **Password:** `arnav123`
+
+The application uses a simple demo authentication flow with browser session storage. This is intended for assignment evaluation and is not production-grade authentication.
+
 ## Local Setup
 
 ### Backend
